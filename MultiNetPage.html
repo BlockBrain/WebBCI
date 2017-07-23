@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <title>My Networked-Aframe Scene</title>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+    <script src="easyrtc/easyrtc.js"></script>
+    <script src="https://unpkg.com/networked-aframe/dist/networked-aframe.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
+    <script>
+      // Define custom schema for syncing avatar color, set by random-color
+      var headSchema = {
+        template: '#head-template',
+        components: [
+          'position',
+          'rotation',
+          {
+            selector: '.head',
+            component: 'material'
+          }
+        ]
+      };
+      NAF.schemas.add(headSchema);
+      // Called by Networked-Aframe when connected to server
+      function onConnect () {
+        console.log("onConnect");
+      }
+    </script>
+  </head>
+  <body>
+
+
+    <script>
+      $(function () {
+        var socket = io();
+        socket.on('Pos', function(msg){
+          var PosX = msg.PosX;
+          var PosY = msg.PosY;
+          var sphere = document.querySelector('a-cylinder');
+          var pos = PosX + " " + PosY + " -5";
+          sphere.setAttribute('position', pos);
+          console.log(pos);
+        });
+    });
+    </script>
+
+
+    <a-scene networked-scene>
+
+
+
+      <a-assets>
+
+        <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
+        <img id="sky" src="http://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
+
+
+        <script id="player-template" type="text/html">
+          <a-entity></a-entity>
+        </script>
+        <script id="head-template" type="text/html">
+          <a-entity class="avatar">
+            <a-sphere class="head"
+              color="#5985ff"
+              scale="0.3 0.35 0.25"
+              random-color
+            ></a-sphere>
+            <a-entity class="face"
+              position="0 0.05 0"
+            >
+              <a-sphere class="eye"
+                color="#efefef"
+                position="0.1 0.1 -0.2"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+              <a-sphere class="eye"
+                color="#efefef"
+                position="-0.1 0.1 -0.2"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+            </a-entity>
+          </a-entity>
+        </script>
+
+        <script id="hand-template" type="text/html">
+          <a-box scale="0.1 0.1 0.1"></a-box>
+        </script>
+      </a-assets>
+
+
+      <a-entity id="player" networked="template:#player-template;showLocalTemplate:false;" spawn-in-circle="radius:3" wasd-controls>
+        <a-entity camera="userHeight: 1.6" look-controls networked="template:#head-template;showLocalTemplate:false;"></a-entity>
+
+        <a-entity hand-controls="left" networked="template:#hand-template;showLocalTemplate:false;"></a-entity>
+        <a-entity hand-controls="right" networked="template:#hand-template;showLocalTemplate:false;"></a-entity>
+      </a-entity>
+      <a-entity position="0 0 0"
+        geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
+        material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
+
+
+      <a-box position="-6 8 -5" color="#4CC3D9" scale="0.5 3 1"></a-box>
+      <a-box position="0 2 -5" rotation="0 0 90" color="#4CC3D9" scale="0.5 3 1"></a-box>
+      <a-box position="0 14 -5" rotation="0 0 90" color="#4CC3D9" scale="0.5 3 1"></a-box>
+      <a-box position="6 8 -5" color="#4CC3D9" scale="0.5 3 1"></a-box>
+      <a-cylinder position="0 8 -5" radius="1.25" color="#EF2D5E" scale="0.5 0.5 0.5" material="" geometry=""></a-cylinder>
+      <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
+      <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
+
+      <a-sky src="#sky" rotation="0 -90 0"></a-sky>
+      <a-entity id="particles" particle-system="preset: snow"></a-entity>
+
+
+
+    </a-scene>
+  </body>
+</html>
