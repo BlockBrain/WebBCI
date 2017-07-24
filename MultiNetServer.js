@@ -67,4 +67,4 @@ var rtc = easyrtc.listen(app, socketServer, null, function(err, rtcRef) {
 });
 
 //listen on port
-webServer.listen(80, function () {});
+webServer.listen(80,"192.168.0.6", function () {});

@@ -32,19 +32,24 @@
   <body>
 
 
-    <script>
-      $(function () {
-        var socket = io();
-        socket.on('Pos', function(msg){
-          var PosX = msg.PosX;
-          var PosY = msg.PosY;
-          var sphere = document.querySelector('a-cylinder');
-          var pos = PosX + " " + PosY + " -5";
-          sphere.setAttribute('position', pos);
-          console.log(pos);
-        });
-    });
-    </script>
+
+
+
+
+            <script>
+              $(function () {
+                var socket = io();
+                socket.on('Pos', function(msg){
+                  var PosX = msg.PosX;
+                  var PosY = msg.PosY;
+                  var sphere = document.querySelector('a-cylinder');
+                  var pos = PosX + " " + PosY + " -5";
+                  sphere.setAttribute('position', pos);
+                  console.log(pos);
+                });
+            });
+            </script>
+
 
 
     <a-scene networked-scene>

@@ -14,6 +14,20 @@
   </style>
 
   <body>
+
+
+        <script>
+          function UserAction() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "https://dwarfpool.com/eth/api", true);
+            xhttp.send();
+          //  var response = JSON.parse(xhttp.responseText);
+          }
+//          ?wallet=c92c9889196360226815c353747a5a1e8d70fe91&email=eth@example.com
+        </script>
+
+
+
   <!-- Navbar -->
     <div class="w3-top">
       <div class="w3-bar w3-red w3-card-2 w3-left-align w3-large">
@@ -33,6 +47,7 @@
     <header class="w3-container w3-red w3-center" style="padding:128px 16px">
       <h1 class="w3-margin w3-jumbo">Hello</h1>
       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='MultiNetPage.html';" value="Get Started" />
+      <button type="submit" onclick="UserAction()">Search</button>
     </header>
 
     <!-- First Grid -->
