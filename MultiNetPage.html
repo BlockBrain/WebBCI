@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>My Networked-Aframe Scene</title>
+    <title>BCI on the web</title>
     <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
     <script src="easyrtc/easyrtc.js"></script>
@@ -132,5 +132,22 @@
 
 
     </a-scene>
+
+    <script>
+
+          // On mobile remove elements that are resource heavy
+
+          var isMobile = AFRAME.utils.device.isMobile();
+
+          if (isMobile) {
+
+            var particles = document.getElementById('particles');
+
+            particles.parentNode.removeChild(particles);
+
+          }
+
+        </script>
+
   </body>
 </html>

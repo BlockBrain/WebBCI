@@ -1,16 +1,23 @@
 // Load required modules
 var http    = require("http");              // http server core module
+var https = require('https');
+var fs = require('fs');
 var app = require("express")();           // web framework external module
 var serveStatic = require('serve-static');  // serve static files
 var socketIo = require("socket.io");        // web socket external module
 var easyrtc = require("easyrtc");               // EasyRTC external module
 var dgram = require('dgram')
 const udpServer = dgram.createSocket('udp4');
-
+var options = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+};
 
 app.use(serveStatic(__dirname, {'index': ['index.html']}));
 
-var webServer = http.createServer(app);
+//var webServer = http.createServer(app);
+var webServer = https.createServer(options, app);
+webServer.listen(443,"192.168.0.6");
 
 udpServer.bind(55404,"192.168.0.6");
 
@@ -67,4 +74,4 @@ var rtc = easyrtc.listen(app, socketServer, null, function(err, rtcRef) {
 });
 
 //listen on port
-webServer.listen(80,"192.168.0.6", function () {});
+//webServer.listen(80,"192.168.0.6", function () {});
