@@ -15,9 +15,10 @@ var options = {
 
 app.use(serveStatic(__dirname, {'index': ['index.html']}));
 
-//var webServer = http.createServer(app);
-var webServer = https.createServer(options, app);
-webServer.listen(443,"192.168.0.6");
+var webServer = http.createServer(app);
+//var webServer = https.createServer(options, app);
+//webServer.listen(443,"192.168.0.6");
+webServer.listen(80,"192.168.0.6", function () {});
 
 udpServer.bind(55404,"192.168.0.6");
 
@@ -74,4 +75,3 @@ var rtc = easyrtc.listen(app, socketServer, null, function(err, rtcRef) {
 });
 
 //listen on port
-//webServer.listen(80,"192.168.0.6", function () {});
