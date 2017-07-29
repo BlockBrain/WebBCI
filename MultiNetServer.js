@@ -16,7 +16,7 @@ var options = {
 app.use(serveStatic(__dirname, {'index': ['index.html']}));
 var webServer = http.createServer(app).listen(80,"192.168.0.6");
 //var webServer = https.createServer(options, app).listen(443,"192.168.0.6");
-var socketServer = socketIo.listen(webServer, {"log level":1}).sockets;
+var socketServer = socketIo.listen(webServer);
 
 const udpServer = dgram.createSocket('udp4');
 udpServer.bind(55404,"192.168.0.6");
