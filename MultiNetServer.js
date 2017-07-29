@@ -16,20 +16,20 @@ var options = {
 app.use(serveStatic(__dirname, {'index': ['index.html']}));
 var webServer = http.createServer(app).listen(80,"192.168.0.6");
 //var webServer = https.createServer(options, app).listen(443,"192.168.0.6");
-var socketServer = socketIo.listen(webServer, {"log level":1});
+var socketServer = socketIo.listen(webServer, {"log level":1}).sockets;
 
 const udpServer = dgram.createSocket('udp4');
 udpServer.bind(55404,"192.168.0.6");
 
 var CPosX;
 var CPosY;
-var BCIString = String.fromCharCode.apply(null, new Uint16Array(msg1))
-var CPx = BCIString.indexOf("CursorPosX");
-var CPy = BCIString.indexOf("CursorPosY");
-var TarC = BCIString.indexOf("TargetCode");
-var ResC = BCIString.indexOf("ResultCode");
 
 udpServer.on('message', (msg1, rinfo) => {
+  var BCIString = String.fromCharCode.apply(null, new Uint16Array(msg1))
+  var CPx = BCIString.indexOf("CursorPosX");
+  var CPy = BCIString.indexOf("CursorPosY");
+  var TarC = BCIString.indexOf("TargetCode");
+  var ResC = BCIString.indexOf("ResultCode");
   if(CPx == 0){
     CPosX = parseFloat(BCIString.substring(11,15));
   }
