@@ -17,21 +17,19 @@
         <script>
           function UserAction() {
             var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "http://dwarfpool.com/eth/api?wallet=c92c9889196360226815c353747a5a1e8d70fe91&email=eth@example.com", true);
+//            xhttp.open("POST", "http://dwarfpool.com/eth/api?wallet=c92c9889196360226815c353747a5a1e8d70fe91&email=eth@example.com", true);
+            //xhttp.open("GET", "http://192.168.0.3/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3", true);
+            xhttp.open("GET", "http://192.168.0.6/emoncms/feed/timevalue.json?id=1&apikey=fddf9b5ee1d7217dd310bc0c5269e998", true);
             xhttp.onload = function () {
               if (xhttp.readyState === xhttp.DONE) {
                 if (xhttp.status === 200) {
-                  alert("Current hashrate is: " + JSON.parse(xhttp.response).total_hashrate_calculated);
-        //          console.log(xhttp.responseText);
+                  console.log(xhttp.response);
+//                  alert("Current hashrate is: " + JSON.parse(xhttp.response).total_hashrate_calculated);
                 }
               }
             };
             xhttp.send();
-            //console.log(xhttp.readyState);
 
-            //console.log(xhttp);
-          //  console.log(JSON.parse(xhttp.responseText));
-        //   console.log(xhttp.readyState);
           }
         </script>
 
