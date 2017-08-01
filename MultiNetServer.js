@@ -76,12 +76,12 @@ mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db){
 
 
 app.use(serveStatic(__dirname, {'index': ['index.html']}));
-var webServer = http.createServer(app).listen(80,"127.0.0.1");
-//var webServer = https.createServer(options, app).listen(443,"192.168.0.6");
+var webServer = http.createServer(app).listen(80,"192.168.0.4");
+//var webServer = https.createServer(options, app).listen(80,"192.168.0.4");
 var socketServer = socketIo.listen(webServer);
 
 const udpServer = dgram.createSocket('udp4');
-udpServer.bind(55404,"127.0.0.1");
+udpServer.bind(55404,"192.168.0.4");
 
 var CPosX;
 var CPosY;
