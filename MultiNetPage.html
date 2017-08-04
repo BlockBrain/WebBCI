@@ -77,10 +77,15 @@
     }
     </style>
 
+
+
+
+
   </head>
   <body>
     <div id="container">
       <div id = "chatBox">
+        <button class="btn-minimize"></button>
         <div class="container1">
           <div class="row">
             <div class="col-md-6 offset-md-3 col-sm-12">
@@ -102,7 +107,10 @@
         </div>
       </div>
       <div id = "WebVrScene">
-        <a-scene networked-scene>
+        <a-scene networked-scene="
+          webrtc: true;
+          webrtcAudio: true;
+          ">
           <a-assets>
             <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
             <img id="sky" src="http://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
@@ -169,6 +177,46 @@
        </a-scene>
       </div>
     </div>
+
+
+    <script>
+    var chatWindow = document.getElementById('chatBox');
+    var mousePosition;
+    var offset = [0,0];
+    var isDown = false;
+
+    chatWindow.addEventListener('mousedown', function(e) {
+        isDown = true;
+        offset = [
+            chatWindow.offsetLeft - e.clientX,
+            chatWindow.offsetTop - e.clientY
+        ];
+    }, true);
+
+    document.addEventListener('mouseup', function() {
+        isDown = false;
+    }, true);
+
+    document.addEventListener('mousemove', function(event) {
+        event.preventDefault();
+        if (isDown) {
+            mousePosition = {
+
+                x : event.clientX,
+                y : event.clientY
+
+            };
+            chatWindow.style.left = (mousePosition.x + offset[0]) + 'px';
+            chatWindow.style.top  = (mousePosition.y + offset[1]) + 'px';
+        }
+    }, true);
+
+
+
+
+
+
+    </script>
 
     <script>
     (function(){
