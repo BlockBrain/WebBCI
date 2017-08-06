@@ -7,11 +7,27 @@ var app = require("express")();           // web framework external module
 var serveStatic = require('serve-static');  // serve static files
 var socketIo = require("socket.io");        // web socket external module
 var easyrtc = require("easyrtc");               // EasyRTC external module
-var dgram = require('dgram')
+var dgram = require('dgram');
+var request = require('request');
+var axios = require('axios');
 var options = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem')
 };
+
+
+const getApiAndEmit = async socket => {
+  try {
+    const res = await axios.get(
+      "http://192.168.0.6/emoncms/feed/timevalue.json?id=1&apikey=fddf9b5ee1d7217dd310bc0c5269e998"
+    )
+    socket.emit("FromAPI",res.data);
+    console.log(res);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 
 // Connect to mongo
 mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db){
@@ -23,6 +39,11 @@ mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db){
 
     // Connect to Socket.io
     socketServer.on('connection', function(socket){
+
+      getApiAndEmit(socket);
+
+
+
         let chat = db.collection('chats');
 
         // Create function to send status
@@ -76,8 +97,8 @@ mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db){
 
 
 app.use(serveStatic(__dirname, {'index': ['index.html']}));
-//var webServer = http.createServer(app).listen(80,"192.168.0.4");
-var webServer = https.createServer(options, app).listen(80,"192.168.0.4");
+var webServer = http.createServer(app).listen(80,"192.168.0.4");
+//var webServer = https.createServer(options, app).listen(80,"192.168.0.4");
 var socketServer = socketIo.listen(webServer);
 
 const udpServer = dgram.createSocket('udp4');

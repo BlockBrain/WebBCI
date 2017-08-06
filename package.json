@@ -3,10 +3,14 @@
   "version": "0.0.1",
   "description": "my first socket.io app",
   "dependencies": {
+    "axios": "^0.16.2",
     "dgram": "^1.0.1",
     "easyrtc": "^1.1.0",
     "express": "^4.15.2",
     "mongodb": "^2.2.30",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0",
+    "router": "^1.3.1",
     "socket.io": "^2.0.3"
   }
 }
