@@ -18,12 +18,20 @@ var options = {
 
 const getApiAndEmit = async socket => {
   try {
-    const res = await axios.get(
+    const energy = await axios.get(
       "http://192.168.0.6/emoncms/feed/timevalue.json?id=1&apikey=fddf9b5ee1d7217dd310bc0c5269e998"
     )
-    socket.emit("FromAPI",res.data);
-    console.log(res);
-  } catch (e) {
+    const lightinfo = await axios.get(
+      "http://192.168.0.3/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3"
+    )
+    const hashrate = await axios.post("http://dwarfpool.com/eth/api?wallet=c92c9889196360226815c353747a5a1e8d70fe91&email=eth@example.com"
+  )
+  const turnlighton = await axios.put(
+    "http://192.168.0.3/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3/state",{"on":true, "sat":254, "bri":254,"hue":10000}
+  )
+
+    socket.emit("FromAPI",lightinfo.data, energy.data, hashrate.data,);
+    } catch (e) {
     console.log(e);
   }
 }

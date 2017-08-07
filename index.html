@@ -16,37 +16,6 @@
   </style>
 
   <body>
-        <script>
-          function UserAction(apisearch) {
-            var xhttp = new XMLHttpRequest();
-              if(apisearch=='Miner')
-              {
-                xhttp.open("POST", "http://dwarfpool.com/eth/api?wallet=c92c9889196360226815c353747a5a1e8d70fe91&email=eth@example.com", true);
-              }
-              else if (apisearch=='energy') {
-                xhttp.open("GET", "http://192.168.0.6/emoncms/feed/timevalue.json?id=1&apikey=fddf9b5ee1d7217dd310bc0c5269e998", true);
-              }
-              else if (apisearch=='lights') {
-              //  xhttp.open("GET", "http://192.168.0.3/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3", true);
-                xhttp.open("PUT", "http://192.168.0.3/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3/state/", true);
-              }
-              xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
-              xhttp.onload = function () {
-                if (xhttp.readyState === xhttp.DONE) {
-                  if (xhttp.status === 200 && apisearch=='Miner') {
-                    alert("Current hashrate is: " + JSON.parse(xhttp.response).total_hashrate_calculated); //miner hashrate
-                  }
-                //  if (xhttp.status === 200 && apisearch=='lights') {
-                //    alert("Light 1 is on: " + JSON.parse(xhttp.response).state.on); //miner hashrate
-                //  }
-                  if (xhttp.status === 200 && apisearch=='energy') {
-                    alert("Current energy consumption is: " + JSON.parse(xhttp.response).value); //miner hashrate
-                  }
-                }
-              }
-              xhttp.send('{"on":false, "sat":254, "bri":254,"hue":10000}');
-            };
-        </script>
 
   <!-- Navbar -->
     <div class="w3-top">
@@ -106,9 +75,10 @@
 
 <script>
   socket = io('http://192.168.0.4');
-  socket.on("FromAPI", function(data){
-        console.log(data);
+  socket.on("FromAPI", function(data1, data2, data3){
+    console.log(data1.state.on, data2.value, data3.total_hashrate_calculated);
 });
+
 </script>
     <script>
     // Used to toggle the menu on small screens when clicking on the menu button
