@@ -13,7 +13,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
-    <script src="//unpkg.com/aframe-leap-hands/dist/aframe-leap-hands.min.js"></script>
+    <script src="//unpkg.com/aframe-leap-hands/dist/aframe-leap-hands.js"></script>
 
     <script>
       $(function () {
@@ -25,10 +25,6 @@
         });
     });
     </script>
-
-
-
-
 
     <script>
       // Define custom schema for syncing avatar color, set by random-color
@@ -113,14 +109,15 @@
           </div>
         </div>
       </div>
+
       <div id = "WebVrScene">
-        <a-scene networked-scene="
+        <a-scene leap="vr: true" networked-scene="
           webrtc: true;
-          webrtcAudio: true;
+          webrtcAudio: false;
           ">
           <a-assets>
             <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
-            <img id="sky" src="http://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
+            <img id="sky" src="https://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
             <script id="player-template" type="text/html">
               <a-entity></a-entity>
             </script>
@@ -166,8 +163,8 @@
             <a-entity camera="userHeight: 1.6" look-controls networked="template:#head-template;showLocalTemplate:false;"></a-entity>
             <a-entity hand-controls="left" networked="template:#hand-template;showLocalTemplate:false;"></a-entity>
             <a-entity hand-controls="right" networked="template:#hand-template;showLocalTemplate:false;"></a-entity>
-            <a-entity leap-hand="hand: left"></a-entity>
-            <a-entity leap-hand="hand: right"></a-entity>
+            <a-entity leap-hand="hand: left" position="0 1.5 -.5" scale = "10 10 10"></a-entity>
+            <a-entity leap-hand="hand: right"position="0 1.5 -.5"></a-entity>
           </a-entity>
 
           <a-entity position="0 0 0"
@@ -189,24 +186,24 @@
 
 
     <script>
-    var chatWindow = document.getElementById('chatBox');
-    var mousePosition;
-    var offset = [0,0];
-    var isDown = false;
+      var chatWindow = document.getElementById('chatBox');
+      var mousePosition;
+      var offset = [0,0];
+      var isDown = false;
 
-    chatWindow.addEventListener('mousedown', function(e) {
+      chatWindow.addEventListener('mousedown', function(e) {
         isDown = true;
         offset = [
             chatWindow.offsetLeft - e.clientX,
             chatWindow.offsetTop - e.clientY
         ];
-    }, true);
+      }, true);
 
-    document.addEventListener('mouseup', function() {
+      document.addEventListener('mouseup', function() {
         isDown = false;
     }, true);
 
-    document.addEventListener('mousemove', function(event) {
+      document.addEventListener('mousemove', function(event) {
         event.preventDefault();
         if (isDown) {
             mousePosition = {
@@ -219,11 +216,6 @@
             chatWindow.style.top  = (mousePosition.y + offset[1]) + 'px';
         }
     }, true);
-
-
-
-
-
 
     </script>
 

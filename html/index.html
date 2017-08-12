@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="/socket.io/socket.io.js"></script>
-  <script src="//unpkg.com/aframe-leap-hands/dist/aframe-leap-hands.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.1/rangeslider.css"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <style>
     body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
@@ -35,11 +35,14 @@
     <!-- Header -->
     <header class="w3-container w3-red w3-center" style="padding:128px 16px">
       <h1 class="w3-margin w3-jumbo">Hello</h1>
-      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='MultiNetPage.html';" value="VR" />
-      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='ARexamp.html';" value="AR" />
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/MultiNetPage.html';" value="VR" />
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/VRtest.html';" value="VRtestbed" />
+            <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/ARexamp.html';" value="AR" />
         <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit" onclick="UserAction()">Get hashrate</button>
-      <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit" onclick="UserAction('energy')">Get energy consumption</button>
+      <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit" onclick="UserAction()">Get energy consumption</button>
       <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit" onclick="location.href='https://video.nest.com/live/O76Xxo82vh'">Cam</button>
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/loader.html';" value="stl viewer" />
+
     </header>
 
     <!-- First Grid -->
@@ -57,8 +60,13 @@
       </div>
     </div>
 
+
+
     <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-        <h1 class="w3-margin w3-xlarge">Coming soon</h1>
+      <div>
+        <input type="range" min="-200" max="200" value="-10" data-rangeslider>
+      <output></output>
+    </div>
     </div>
 
     <!-- Footer -->
@@ -75,7 +83,8 @@
     </footer>
 
 <script>
-  socket = io('http://184.97.234.68');
+//socket = io('http://184.97.234.68');
+socket = io('http://192.168.0.4');
   socket.on("FromAPI", function(data1, data2, data3){
   function UserAction(){
     console.log(data1.state.on, data2.value, data3.total_hashrate_calculated);
@@ -95,6 +104,44 @@
         }
     }
     </script>
+    <script>
+    $(function() {
+        var $document = $(document);
+        var selector = '[data-rangeslider]';
+        var $element = $(selector);
+        // For ie8 support
+        var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
+        // Example functionality to demonstrate a value feedback
+        function valueOutput(element) {
+            var value = element.value;
+            var output = element.parentNode.getElementsByTagName('output')[0] || element.parentNode.parentNode.getElementsByTagName('output')[0];
+            output[textContent] = value;
+            console.log(output);
+        }
+        $document.on('input', 'input[type="range"], ' + selector, function(e) {
+            valueOutput(e.target);
+        });
+        // Example functionality to demonstrate disabled functionality
 
+
+        // Example functionality to demonstrate programmatic value changes
+        $document.on('click', '#js-example-change-value button', function(e) {
+            var $inputRange = $(selector, e.target.parentNode);
+            var value = $('input[type="number"]', e.target.parentNode)[0].value;
+            $inputRange.val(value).change();
+        });
+        // Example functionality to demonstrate programmatic attribute changes
+        $document.on('click', '#js-example-change-attributes button', function(e) {
+            var $inputRange = $(selector, e.target.parentNode);
+            var attributes = {
+                    min: $('input[name="min"]', e.target.parentNode)[0].value,
+                    max: $('input[name="max"]', e.target.parentNode)[0].value,
+                    step: $('input[name="step"]', e.target.parentNode)[0].value
+                };
+            $inputRange.attr(attributes);
+            $inputRange.rangeslider('update', true);
+        });
+    });
+    </script>
     </body>
     </html>

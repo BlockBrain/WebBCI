@@ -11,33 +11,16 @@ var dgram = require('dgram');
 var request = require('request');
 var axios = require('axios');
 var options = {
-  key: fs.readFileSync('key.pem'), 
-  cert: fs.readFileSync('cert.pem')
+  key: fs.readFileSync('keys/key.pem'),
+  cert: fs.readFileSync('keys/cert.pem')
 };
 
-
-const getApiAndEmit = async socket => {
-  try {
-    const energy = await axios.get(
-      "http://192.168.0.6/emoncms/feed/timevalue.json?id=1&apikey=fddf9b5ee1d7217dd310bc0c5269e998"
-    )
-    const lightinfo = await axios.get(
-      "http://192.168.0.3/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3"
-    )
-    const hashrate = await axios.post("http://dwarfpool.com/eth/api?wallet=c92c9889196360226815c353747a5a1e8d70fe91&email=eth@example.com"
-  )
-  const turnlighton = await axios.put(
-    "http://192.168.0.3/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3/state",{"on":true, "sat":254, "bri":254,"hue":10000}
-  )
-
-    socket.emit("FromAPI",lightinfo.data, energy.data, hashrate.data,);
-    } catch (e) {
-    console.log(e);
-  }
-}
-
+var brightness;
 
 // Connect to mongo
+//C:\Program Files\MongoDB\Server\3.4\bin
+
+
 mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db){
     if(err){
         throw err;
@@ -47,6 +30,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db){
 
     // Connect to Socket.io
     socketServer.on('connection', function(socket){
+      brightness = 254;
 
       getApiAndEmit(socket);
 
@@ -103,14 +87,33 @@ mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db){
     });
 });
 
+//C:\Program Files\MongoDB\Server\3.4\bin\mongod
+const getApiAndEmit = async socket => {
+  try {
+    const energy = await axios.get(
+      "http://192.168.0.6/emoncms/feed/timevalue.json?id=1&apikey=fddf9b5ee1d7217dd310bc0c5269e998"
+    )
+    const lightinfo = await axios.get(
+      "http://192.168.0.3/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3"
+    )
+    const hashrate = await axios.post("http://dwarfpool.com/eth/api?wallet=c92c9889196360226815c353747a5a1e8d70fe91&email=eth@example.com"
+  )
+  const turnlighton = await axios.put(
+    "http://192.168.0.3/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3/state",{"on":true, "bri":brightness,"hue":10000}
+  )
+    socket.emit("FromAPI",lightinfo.data, energy.data, hashrate.data,);
+    } catch (e) {
+    console.log(e);
+  }
+}
 
-app.use(serveStatic(__dirname, {'index': ['index.html']}));
+app.use(serveStatic(__dirname, {'index': ['html/index.html']}));
 var webServer = http.createServer(app).listen(80,"192.168.0.4");
 //var webServer = https.createServer(options, app).listen(80,"192.168.0.4");
 var socketServer = socketIo.listen(webServer);
 
 const udpServer = dgram.createSocket('udp4');
-udpServer.bind(55404,"192.168.0.4");
+udpServer.bind(55424,"192.168.0.4");
 
 var CPosX;
 var CPosY;
