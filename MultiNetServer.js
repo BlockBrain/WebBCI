@@ -81,6 +81,16 @@ socketServer.sockets.on('connection', function(socket){
         const energy = await axios.get(
           "http://192.168.0.52/emoncms/feed/timevalue.json?id=1&apikey=fddf9b5ee1d7217dd310bc0c5269e998"
         )
+        const energy_miner1 = await axios.get(
+          "http://192.168.0.52/emoncms/feed/timevalue.json?id=5&apikey=fddf9b5ee1d7217dd310bc0c5269e998"
+        )
+        const energy_miner2 = await axios.get(
+          "http://192.168.0.52/emoncms/feed/timevalue.json?id=7&apikey=fddf9b5ee1d7217dd310bc0c5269e998"
+        )
+        const energy_solar = await axios.get(
+          "http://192.168.0.52/emoncms/feed/timevalue.json?id=8&apikey=fddf9b5ee1d7217dd310bc0c5269e998"
+        )
+                        
         const lightinfo = await axios.get(
           "http://192.168.0.15/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/3"
         )
@@ -88,9 +98,7 @@ socketServer.sockets.on('connection', function(socket){
           "http://dwarfpool.com/eth/api?wallet=c92c9889196360226815c353747a5a1e8d70fe91&email=eth@example.com"
         )
 
-        socketServer.sockets.emit('new message',lightinfo.data, energy.data.value, hashrate.data);
-//        socket.emit('FromAPI',,);
-  //      console.log(lightinfo.data,energy.data,hashrate.data);
+        socketServer.sockets.emit('new message',lightinfo.data, energy.data.value, energy_miner1.data.value, energy_miner2.data.value, energy_solar.data.value, hashrate.data);
         } catch (e) {
         console.log(e);
       }
