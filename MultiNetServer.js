@@ -61,7 +61,7 @@ socketServer.sockets.on('connection', function(socket){
       if(msg.value==0){
         const turnlighton = await axios.put(
         "http://192.168.0.15/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/4/state",{"on":false}
-      )
+      )https://wap.tplinkcloud.com?token=6b1ce74d-2842f6f23f7b4e81aedb8ff
       }
     }
     //TP-link
