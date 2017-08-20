@@ -43,12 +43,6 @@
       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/loader.html';" value="stl viewer" />
     </header>
 
-    <script type="text/javascript">
-      function myfunction() {
-    }
-    </script>
-
-
     <header class="w3-container w3-white w3-center" style="padding:64px 16px">
       <div class = "w3-middle">
         <h3>Status</h3>
@@ -56,7 +50,9 @@
         <p id="light2Status">Light1</p>
         <p id="energyStatus">Light1</p>
         <p id="hashrateStatus">Light1</p>
-
+        <p id="energy_miner1Status">Light1</p>
+        <p id="energy_miner2Status">Light1</p>
+        <p id="energy_miner3Status">Light1</p>
       </div>
     </header>
 
@@ -87,13 +83,13 @@
     <script>
       function UserAction(){
         socket.emit('send message');
-        socket.on('new message', function(data1,data2,data3){
-          console.log("Bookcase light is on: " + data1.state.on);
-          console.log("Current energy usage is: " + data2 + " Watts");
-          console.log(data3.total_hashrate_calculated + " MH/s");
+        socket.on('new message', function(data1,data2,data3, data4, data5, data6){
           document.getElementById("light1Status").innerHTML = ("Bookcase light is on: " + data1.state.on);
           document.getElementById("energyStatus").innerHTML = ("Current energy usage is: " + data2 + " Watts");
           document.getElementById("hashrateStatus").innerHTML = ("Bookcase light is on: " + data1.state.on);
+          document.getElementById("energy_miner1Status").innerHTML = ("Miner1 is using: " + data4 + " Watts");
+          document.getElementById("energy_miner2Status").innerHTML = ("Miner2 is using: " + data5 + " Watts");
+          document.getElementById("energy_solarStatus").innerHTML = ("Currently generating: " + data6 + " Watts");
 
         });
       };
