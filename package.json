@@ -2,6 +2,9 @@
   "name": "HomeWebInterface",
   "version": "0.0.1",
   "description": "Connect all devices to one server",
+  "scripts": {
+    "start": "nodemon MultiNetServer.js"
+  },
   "dependencies": {
     "ar-drone": "^0.3.3",
     "axios": "^0.16.2",
