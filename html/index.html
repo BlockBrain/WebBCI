@@ -1,109 +1,104 @@
 <!DOCTYPE html>
 <html>
-  <title>BCIVr</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.1/rangeslider.css"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <style>
+  <head>
+    <title>BCIVr</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.1/rangeslider.css" rel="stylesheet" type="text/css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+
+    <style>
     body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
     .fa-anchor,.fa-coffee {font-size:200px}
-  </style>
+    </style>
+
+    <script>
+      //socket = io('http://184.97.234.68');
+      var socket = io('http://192.168.0.6').connect();
+    </script>
+
+  </head>
 
   <body>
 
-  <!-- Navbar -->
-    <div class="w3-top">
-      <div class="w3-bar w3-red w3-card-2 w3-left-align w3-large">
-        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-        <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-        <a href="MultiNetPage.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Click here to go to the VR experience</a>
-      </div>
-
-      <!-- Navbar on small screens -->
-      <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-        <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-        <a href="MultiNetPage.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Click here to go to the VR experience</a>
-      </div>
-    </div>
-    <!-- Header -->
     <header class="w3-container w3-red w3-center" style="padding:128px 16px">
-      <h1 class="w3-margin w3-jumbo">Hello</h1>
+      <h1 class="w3-margin w3-jumbo">Panguin House</h1>
       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/MultiNetPage.html';" value="VR" />
       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/VRtest.html';" value="VRtestbed" />
-            <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/ARexamp.html';" value="AR" />
-        <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit" onclick="UserAction()">Get hashrate</button>
-      <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit" onclick="UserAction()">Get energy consumption</button>
-      <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit" onclick="location.href='https://video.nest.com/live/O76Xxo82vh'">Cam</button>
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/ARexamp.html';" value="AR" />
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="UserAction()" value ="Get hashrate"/>
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="UserAction()"value="Get energy consumption"/>
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='https://video.nest.com/live/O76Xxo82vh'"value="Cam"/>
       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/loader.html';" value="stl viewer" />
-
     </header>
 
-    <!-- First Grid -->
-    <div class="w3-row-padding w3-padding-64 w3-container">
-      <div class="w3-content">
-        <div class="w3-twothird">
-          <h1>Welcome!</h1>
-          <h5 class="w3-padding-32">This is going to be the staging ground for a few WebVR scenes.</h5>
-          <p>The a-frame networking came from <a href="https://github.com/haydenjameslee/networked-aframe">here.</a> </p>
-          <p class="w3-text-grey">Will also be incorporating web3</p>
-        </div>
-        <div class="w3-third w3-center">
-          <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
-        </div>
+    <script type="text/javascript">
+      function myfunction() {
+    }
+    </script>
+
+
+    <header class="w3-container w3-white w3-center" style="padding:64px 16px">
+      <div class = "w3-middle">
+        <h3>Status</h3>
+        <p id="light1Status">Light1</p>
+        <p id="light2Status">Light1</p>
+        <p id="energyStatus">Light1</p>
+        <p id="hashrateStatus">Light1</p>
+
+      </div>
+    </header>
+
+
+
+
+
+
+
+    <div class="w3-display-container w3-black w3-opacity w3-padding-64">
+      <div class = "w3-display-topmiddle">
+        <h3>Lightbulbs</h3>
+      </div>
+
+      <div style="padding:0px 100px">
+        <text class="w3-black">Bookcase</text>
+        <input type="range" min="-0" max="254" value="-10" id="Slider1">
+        <output1></output1>
+      </div>
+
+      <div style="padding:0px 500px">
+        <text class="w3-black">Computer</text>
+        <input type="range" min="-0" max="254" value="-10" id="Slider2">
+        <output2></output2>
       </div>
     </div>
 
-
-
-    <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-      <div>
-        <input type="range" min="-200" max="200" value="-10" data-rangeslider>
-      <output></output>
-    </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="w3-container w3-padding-64 w3-center w3-opacity">
-      <div class="w3-xlarge w3-padding-32">
-        <i class="fa fa-facebook-official w3-hover-opacity"></i>
-        <i class="fa fa-instagram w3-hover-opacity"></i>
-        <i class="fa fa-snapchat w3-hover-opacity"></i>
-        <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-        <i class="fa fa-twitter w3-hover-opacity"></i>
-        <i class="fa fa-linkedin w3-hover-opacity"></i>
-     </div>
-     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-    </footer>
-
-<script>
-//socket = io('http://184.97.234.68');
-socket = io('http://192.168.0.4');
-  socket.on("FromAPI", function(data1, data2, data3){
-  function UserAction(){
-    console.log(data1.state.on, data2.value, data3.total_hashrate_calculated);
-
-  }
-});
-
-</script>
     <script>
-    // Used to toggle the menu on small screens when clicking on the menu button
-    function myFunction() {
-        var x = document.getElementById("navDemo");
-        if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-        } else {
-            x.className = x.className.replace(" w3-show", "");
-        }
-    }
+      function UserAction(){
+        socket.emit('send message');
+        socket.on('new message', function(data1,data2,data3){
+          console.log("Bookcase light is on: " + data1.state.on);
+          console.log("Current energy usage is: " + data2 + " Watts");
+          console.log(data3.total_hashrate_calculated + " MH/s");
+          document.getElementById("light1Status").innerHTML = ("Bookcase light is on: " + data1.state.on);
+          document.getElementById("energyStatus").innerHTML = ("Current energy usage is: " + data2 + " Watts");
+          document.getElementById("hashrateStatus").innerHTML = ("Bookcase light is on: " + data1.state.on);
+
+        });
+      };
     </script>
+
     <script>
     $(function() {
         var $document = $(document);
@@ -112,36 +107,30 @@ socket = io('http://192.168.0.4');
         // For ie8 support
         var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
         // Example functionality to demonstrate a value feedback
-        function valueOutput(element) {
+        function valueOutput(id, element) {
             var value = element.value;
-            var output = element.parentNode.getElementsByTagName('output')[0] || element.parentNode.parentNode.getElementsByTagName('output')[0];
-            output[textContent] = value;
-            console.log(output);
+            if(id=="Slider1"){
+              var output1 = element.parentNode.getElementsByTagName('output1')[0] || element.parentNode.parentNode.getElementsByTagName('output1')[0];
+              output1[textContent] = value;
+              state = 1;
+              socket.emit('lightbulb',{value, state});
+            }
+            else if (id=="Slider2") {
+              var output2 = element.parentNode.getElementsByTagName('output2')[0] || element.parentNode.parentNode.getElementsByTagName('output2')[0];
+              output2[textContent] = value;
+              state = 2;
+              socket.emit('lightbulb',{value, state});
+            }
+
         }
         $document.on('input', 'input[type="range"], ' + selector, function(e) {
-            valueOutput(e.target);
+          console.log(e.target.id);
+            valueOutput(e.target.id, e.target);
         });
-        // Example functionality to demonstrate disabled functionality
 
 
-        // Example functionality to demonstrate programmatic value changes
-        $document.on('click', '#js-example-change-value button', function(e) {
-            var $inputRange = $(selector, e.target.parentNode);
-            var value = $('input[type="number"]', e.target.parentNode)[0].value;
-            $inputRange.val(value).change();
-        });
-        // Example functionality to demonstrate programmatic attribute changes
-        $document.on('click', '#js-example-change-attributes button', function(e) {
-            var $inputRange = $(selector, e.target.parentNode);
-            var attributes = {
-                    min: $('input[name="min"]', e.target.parentNode)[0].value,
-                    max: $('input[name="max"]', e.target.parentNode)[0].value,
-                    step: $('input[name="step"]', e.target.parentNode)[0].value
-                };
-            $inputRange.attr(attributes);
-            $inputRange.rangeslider('update', true);
-        });
     });
     </script>
-    </body>
-    </html>
+
+  </body>
+</html>

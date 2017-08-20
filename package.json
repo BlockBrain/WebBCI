@@ -1,8 +1,9 @@
 {
-  "name": "socket-chat-example",
+  "name": "HomeWebInterface",
   "version": "0.0.1",
-  "description": "my first socket.io app",
+  "description": "Connect all devices to one server",
   "dependencies": {
+    "ar-drone": "^0.3.3",
     "axios": "^0.16.2",
     "dgram": "^1.0.1",
     "easyrtc": "^1.1.0",
