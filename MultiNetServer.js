@@ -53,7 +53,6 @@ socketServer.sockets.on('connection', function(socket){
       )
       }
     }
-
     else if (msg.state==2) {
       const turnlighton = await axios.put(
         "http://192.168.0.15/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/4/state",{"on":true, "bri":parseInt(msg.value)}
@@ -61,20 +60,35 @@ socketServer.sockets.on('connection', function(socket){
       if(msg.value==0){
         const turnlighton = await axios.put(
         "http://192.168.0.15/api/aKkMwrFSuI4zeztRtAdF-KuY2LINDjkOlzMXps-O/lights/4/state",{"on":false}
-      )https://wap.tplinkcloud.com?token=6b1ce74d-2842f6f23f7b4e81aedb8ff
+      )
       }
     }
     //TP-link
-    else if(msg.room==1){
-      "method":"passthrough",
-      "params": {
-        "deviceId": "80061F61F98A200497633B81A4A0D45117C801B2",
-         "requestData":
-         "{\"system\":{\"set_relay_state\":{\"state\":1}}}"
-       }
-     }
+    else if(msg.val==1){
+      const light_TP = await axios.post(
+        "https://wap.tplinkcloud.com?token=6b1ce74d-2842f6f23f7b4e81aedb8ff",{
+        method: "passthrough",
+        params: {
+          deviceId: "80061F61F98A200497633B81A4A0D45117C801B2",
+          requestData:
+          "{\"system\":{\"set_relay_state\":{\"state\":1}}}"
+        }
+      }
+      )
     }
-  } catch (e) {
+    else if(msg.val==0){
+      const light_TP = await axios.post(
+        "https://wap.tplinkcloud.com?token=6b1ce74d-2842f6f23f7b4e81aedb8ff",{
+        method: "passthrough",
+        params: {
+          deviceId: "80061F61F98A200497633B81A4A0D45117C801B2",
+          requestData:
+          "{\"system\":{\"set_relay_state\":{\"state\":0}}}"
+        }
+      }
+      )
+    }
+    } catch (e) {
   console.log(e);
 }
 }
