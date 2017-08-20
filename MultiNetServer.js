@@ -64,6 +64,10 @@ socketServer.sockets.on('connection', function(socket){
       )
       }
     }
+    //TP-link
+    else if(msg.room==1){
+{"method":"passthrough", "params": {"deviceId": "80061F61F98A200497633B81A4A0D45117C801B2", "requestData": "{\"system\":{\"set_relay_state\":{\"state\":0}}}" }})
+    }
   } catch (e) {
   console.log(e);
 }
