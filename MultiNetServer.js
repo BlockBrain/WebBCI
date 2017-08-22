@@ -1,4 +1,6 @@
 // Load required modules
+const Cyton = require('openbci').Cyton;
+const k = require('openbci-utilities').Constants;
 const mongo = require('mongodb').MongoClient;
 var app = require("express")();           // web framework external module
 var webServer = require("http").createServer(app);              // http server core module
@@ -11,13 +13,11 @@ connections = [];
 var easyrtc = require("easyrtc");               // EasyRTC external module
 var dgram = require('dgram');
 var axios = require('axios');
-
 var options = {
   key: fs.readFileSync('keys/key.pem'),
   cert: fs.readFileSync('keys/cert.pem')
 };
 
-var brightness;
 webServer.listen(process.env.PORT || 80,"192.168.0.6");
 
 app.get('/', function(req,res){
@@ -39,7 +39,60 @@ socketServer.sockets.on('connection', function(socket){
     lightOn(socket, msg);
   });
 
+  socket.on('TV',function(msg){
+    rokuControl(socket,msg);
+  });
+  const ourBoard = new Cyton();
+
+  socket.on('bciStream',function(signal){
+    console.log(signal.val);
+
+
+    if(signal.val=='on'){
+    ourBoard.connect(k.OBCISimulatorPortName) // This will set `simulate` to true
+        .then((boardSerial) => {
+            ourBoard.on('ready',() => {
+              ourBoard.streamStart();
+                    ourBoard.on('sample',(sample) => {
+                      socketServer.emit('brainwave',sample);
+                      for (let i = 0; i < ourBoard.numberOfChannels(); i++) {
+                        //console.log("Channel " + (i + 1) + ": " + sample.channelData[i].toFixed(8) + " Volts.");
+                        }
+                      });
+                    });
+        }).catch((err) => {
+        });
+  }
+  if(signal.val=='off'){
+      ourBoard.streamStop().catch(console.log);     //problem here
+    ourBoard.disconnect();
+
+  }
 });
+});
+
+
+
+
+
+
+  const rokuControl = async(socket,msg) => {
+    try{
+      if(msg.input=='poweron'){
+      const TV_on = await axios.post(
+        "http://192.168.0.5:8060/keypress/poweron"
+      )
+    }
+    else if(msg.input=='poweroff'){
+      const TV_on = await axios.post(
+        "http://192.168.0.5:8060/keypress/poweroff"
+      )
+    }
+  }
+    catch (e) {
+  console.log(e);
+}
+  }
 
   const lightOn = async (socket, msg) => {
   try {
@@ -87,6 +140,7 @@ socketServer.sockets.on('connection', function(socket){
         }
       }
       )
+
     }
     } catch (e) {
   console.log(e);

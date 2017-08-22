@@ -32,12 +32,29 @@
 
   <body>
 
-    <header class="w3-container w3-red w3-center" style="padding:128px 16px">
+    <header class="w3-container w3-red w3-center" style="padding:64px 16px">
       <h1 class="w3-margin w3-jumbo">Panguin House</h1>
       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/MultiNetPage.html';" value="VR" />
       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/VRtest.html';" value="VRtestbed" />
       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/ARexamp.html';" value="AR" />
       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/loader.html';" value="stl viewer" />
+      <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('on')" value="Get BCI data stream" />
+      <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('off')" value="Disconnect BCI data stream" />
+
+      <main id="lines"></main>
+      <script>
+      function getBCI(val){
+        socket.emit('bciStream',{val})
+      };
+        var lines = document.querySelector('#lines');
+        socket.on('brainwave',function(brainwave){
+          var line = document.createElement('pre');
+          line.innerHTML = 'Channel data: '+brainwave.channelData;
+          lines.insertBefore(line,lines.firstChild);
+        });
+      </script>
+
+
     </header>
 
     <header class="w3-container w3-white w3-center">
@@ -50,6 +67,8 @@
         <p id="energy_solarStatus">Solar</p>
         <p id="hashrateStatus">Hashrate</p>
       </div>
+
+      <div>
 
       <div style="position:absolute;right:700px;top:500px;">
         <iframe width="700" height="400"
@@ -78,6 +97,19 @@
       </div>
 
     </header>
+    <footer class="w3-container w3-red w3-bottom w3-center" style="padding:0px 0px 16px 0px">
+
+      <div>
+        <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="Roku('poweron')"value="ROKU POWER ON"/>
+        <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="Roku('poweroff')"value="ROKU POWER OFF"/>
+      </div>
+</footer>
+
+    <script>
+    function Roku(input){
+      socket.emit('TV',{input});
+      };
+    </script>
 
     <script>
       function UserAction(input, val){
