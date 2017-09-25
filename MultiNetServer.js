@@ -9,6 +9,7 @@ var socketServer = require("socket.io").listen(webServer);        // web socket 
 var fs = require('fs');
 users = [];
 connections = [];
+var format = require('string-format')
 
 var easyrtc = require("easyrtc");               // EasyRTC external module
 var dgram = require('dgram');
@@ -42,6 +43,7 @@ socketServer.sockets.on('connection', function(socket){
   socket.on('TV',function(msg){
     rokuControl(socket,msg);
   });
+
   const ourBoard = new Cyton();
 
   socket.on('bciStream',function(signal){
@@ -78,17 +80,11 @@ socketServer.sockets.on('connection', function(socket){
 
   const rokuControl = async(socket,msg) => {
     try{
-      if(msg.input=='poweron'){
+        console.log(format('http://192.168.0.5:8060/keypress/{}',msg.input));
       const TV_on = await axios.post(
-        "http://192.168.0.5:8060/keypress/poweron"
+        format('http://192.168.0.5:8060/keypress/{}',msg.input)
       )
     }
-    else if(msg.input=='poweroff'){
-      const TV_on = await axios.post(
-        "http://192.168.0.5:8060/keypress/poweroff"
-      )
-    }
-  }
     catch (e) {
   console.log(e);
 }
