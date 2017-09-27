@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BCIVr</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.32.0/smoothie.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.1/rangeslider.css" rel="stylesheet" type="text/css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+
+    <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+    .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+    .fa-anchor,.fa-coffee {font-size:200px}
+    </style>
+
+    <script>
+      //socket = io('http://184.97.234.68');
+      var socket = io('127.0.0.1').connect();
+    </script>
+
+    <script>
+    var random = new TimeSeries();
+
+    function getBCI(val){
+
+      socket.emit('bciStream',{val});
+    //  var chart = new SmoothieChart();
+  //    chart.addTimeSeries(random);//, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+//      chart.streamTo(document.getElementById("chart"),50);
+
+
+
+    };
+
+//    socket.on('brainwave',function(brainwave){
+//      random.append(new Date().getTime(),brainwave);
+//      console.log(brainwave);
+//    });
+
+
+    </script>
+
+  </head>
+
+  <body class="vsc-initialized">
+
+    <canvas id="chart" width="400" height="100"></canvas>
+    <div class="smoothie-chart-tooltip" style="position: absolute; display: none;"></div>
+    <header class="w3-container w3-red w3-center" style="padding:64px 16px">
+    <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('on')" value="Get BCI data stream" />
+    <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('off')" value="Disconnect BCI data stream" />
+    <main id="lines"></main>
+  </body>
+</html>
