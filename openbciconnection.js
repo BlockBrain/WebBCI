@@ -2,27 +2,54 @@ const k = require('openbci-utilities').Constants;
 const Wifi = require('openbci-wifi');
 let wifi = new Wifi.Wifi({
   debug: false,
-  verbose: true,
+  verbose: false,
   sendCounts: false,
   latency: 10000
+//  sampleRate: 255 // Custom sample rate
+
 });
-
-var a_obci = 0;
-var a_server = 0;
-
+let counter = 0;
+let sampleRateCounterInterval = null;
+let lastSampleNumber = 0;
+let MAX_SAMPLE_NUMBER = 255;
+var opbci_server;
+var sample1;
+var samp;
 module.exports = {
 
-   myFunction: function() {
-     wifi.connect({
-       ipAddress: "192.168.0.36",
-    //
-       streamStart: true
-     });
-   },
+  connect: function() {
+
+    wifi.connect({
+      ipAddress: "192.168.0.36",
+    }).catch(console.log("Connected"));
+
+  },
+
+  impedence: function() {
+    console.log("Testing impedence");
+    //wifi.on('impedanceArray', impedanceArray => {
+    //  console.log(impedanceArray);
+        /** Work with impedance Array */
+    //});
+    //wifi.impedanceTestChannels(['n','N','n','p','P','p','b','B']).catch(err => console.log(err));
+
+    wifi.impedanceSet(1, true, false).catch(console.log("Setting impedence"));
+    //wifi.on(k.OBCIEmitterImpedance, (impedance) => {
+    //  console.log("Imp check?");
+  //    console.log(impedance);
+    //});
+
+  },
 
  disconnect_obci: function() {
-   wifi.streamStop().catch(console.log);     //problem here
-   wifi.disconnect();
+   // I don't think this is completely disconnecting because I can't reconnet
+   if (wifi.isConnected()) wifi.disconnect().catch(console.log);
+    wifi.removeAllListeners('rawDataPacket');
+    wifi.removeAllListeners('sample');
+    wifi.destroy();
+    if (sampleRateCounterInterval) {
+      clearInterval(sampleRateCounterInterval);
+    }
 },
-a_server: wifi
+obci_server: wifi,
 }

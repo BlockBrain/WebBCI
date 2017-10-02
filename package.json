@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "ar-drone": "^0.3.3",
+    "async": "^2.5.0",
     "axios": "^0.16.2",
     "dgram": "^1.0.1",
     "easyrtc": "^1.1.0",

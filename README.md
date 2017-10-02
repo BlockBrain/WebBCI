@@ -1,10 +1,7 @@
 # WebBCI
+- bcivr.com
 
-
-Projects a total mess. Original plan was to have home automation, energy usage, bci use, etc etc be combined into a single project, but that was stupid.
-Going to try and partition it as best as possible.
-Removing BCI2000 stuff since I plan to stick with the openBCI as the primary signal acquisition platform.
-BCI2000 stuff was essentially just a UDP read and socketio send.
+Legacy BCI2000 stuff in 'Old' folder (just a UDP read and socketio send).
 
 
 # New issues:
@@ -13,6 +10,7 @@ BCI2000 stuff was essentially just a UDP read and socketio send.
 Either method of connection is incorrect, or the system is just being overloaded (possible sample rate/latency issue)
 
 - Fix delay with plotting/overflow of the RT bci data
+- Can't seem to set impedence-mode
 
 # Next:
 
