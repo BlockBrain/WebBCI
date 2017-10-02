@@ -73,61 +73,7 @@
       var socket = io('192.168.0.3').connect();
     </script>
 
-    <script>
-    var random1 = new TimeSeries();
-    var random2 = new TimeSeries();
-    var chart;
 
-    function getBCI(val){
-      socket.emit('bciStream',{val});
-      chart = new SmoothieChart();
-
-    };
-
-    function sim(){
-      chart = new SmoothieChart();
-      setInterval(function(){
-        random1.append(new Date().getTime(),Math.random());
-      }, 1000);
-      setInterval(function(){
-
-      random2.append(new Date().getTime(),Math.random());
-          }, 1000);
-          chart.addTimeSeries(random1, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
-          chart.addTimeSeries(random2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
-          chart.streamTo(document.getElementById("chart"),500);
-
-
-    };
-
-    socket.on('brainwave',function(brainwave){
-      setInterval(function(){
-      random.append(new Date().getTime(),brainwave);
-    }, 250);
-      chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
-      chart.streamTo(document.getElementById("chart"),500);
-      console.log(random.maxValue);
-    });
-
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    // Close the dropdown menu if the user clicks outside of it
-    window.onclick = function(event) {
-      if (!event.target.matches('.dropbtn')) {
-
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
-        }
-      }
-    }
-    </script>
 
   </head>
 
@@ -136,6 +82,12 @@
     <header  id="openbci_wifi_connections" class="w3-container w3-red w3-center" style="padding:64px 16px">
       <h3>Manage your connection</h3>
       <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('on')" value="Connect" />
+      <select id="channel_count">
+        <option id = "Select how many channels (Gangilion, Cyton, or Daisy)">Select channel count</option>
+        <option id = "Cyton">Cyton</option>
+        <option id = "Gaglion">Ganglion</option>
+        <option id = "Daisy">Cyton+Daisy</option>
+      </select>
       <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('imp')" value="Check impedence" />
       <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('off')" value="Disconnect" />
       <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('reset')" value="Soft reset" />
@@ -150,20 +102,85 @@
     <header  id="openbci_wifi_data" class="w3-container w3-red w3-center" style="padding:64px 16px">
       <h3>Play with some data</h3>
       <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="sim()" value="Simulate stream" />
-      <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-      <div id="myDropdown" class="dropdown-content">
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
-      </div>
+      <select id="dropdown">
+        <option id = "0">How many 'channels'</option>
+        <option id = "chan1" value=1>1</option>
+        <option id = "chan2">2</option>
+        <option id = "chan3">3</option>
+      </select>
     </header>
 
     <canvas id="chart" width="400" height="100"></canvas>
     <div class="smoothie-chart-tooltip" style="position: absolute; display: none;"></div>
 
 
+    <script>
+    var random1 = new TimeSeries();
+    var random2 = new TimeSeries();
+    var random3 = new TimeSeries();
+    var chart;
+
+    function getBCI(val){
+      socket.emit('bciStream',{val});
+      chart = new SmoothieChart();
+
+    };
+
+    function sim(){
+      chart = new SmoothieChart();
+      if(document.getElementById("dropdown").selectedIndex==1){
+        setInterval(function(){
+          random1.append(new Date().getTime(),Math.random());
+        }, 1000);
+        chart.addTimeSeries(random1, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+
+      }
+      else if (document.getElementById("dropdown").selectedIndex==2){
+        setInterval(function(){
+          random1.append(new Date().getTime(),Math.random());
+        }, 1000);
+        setInterval(function(){
+        random2.append(new Date().getTime(),Math.random());
+            }, 1000);
+
+        chart.addTimeSeries(random1, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+        chart.addTimeSeries(random2, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
 
 
+      }
+      else if (document.getElementById("dropdown").selectedIndex==3){
+        setInterval(function(){
+          random1.append(new Date().getTime(),Math.random());
+        }, 1000);
+        setInterval(function(){
+        random2.append(new Date().getTime(),Math.random());
+            }, 1000);
+            setInterval(function(){
+            random3.append(new Date().getTime(),Math.random());
+                }, 1000);
+
+        chart.addTimeSeries(random1, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+        chart.addTimeSeries(random2, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+        chart.addTimeSeries(random3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+
+
+      }
+
+          chart.streamTo(document.getElementById("chart"),800);
+
+          console.log(document.getElementById("dropdown").selectedIndex);
+    };
+
+    socket.on('brainwave',function(brainwave){
+      setInterval(function(){
+      random.append(new Date().getTime(),brainwave);
+    }, 250);
+      chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+      chart.streamTo(document.getElementById("chart"),500);
+      console.log(random.maxValue);
+    });
+
+    </script>
 
   </body>
 </html>
