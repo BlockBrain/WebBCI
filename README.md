@@ -1,17 +1,21 @@
 # WebBCI
-
-Networked WebVR scene with some UDP inputs and ethereum mining hashrate
-
-www.bcivr.com
+- bcivr.com
 
 
 
-## Issues:
+# New issues:
 
-WebVR on mobile doesn't work outside of the local network.
+ - Can stream and plot data (socketio+smoothie), but connection cuts out and requires manual reset.
+Either method of connection is incorrect, or the system is just being overloaded (possible sample rate/latency issue)
 
-## To-do:
+- Fix delay with plotting/overflow of the RT bci data
+- Can't seem to set impedance-mode
 
-- Incorporate Mist
-- Fix X position UDP streaming
-- Allow two datastreams to control one object
+# Next:
+
+- Incorporate option to choose which data to stream
+- Option to choose wifi/bluetooth
+- Incorporate multi-user interactions (right now each instance is independent of others)
+- Allow user to connect to openBCI via browser (current server-side)
+  - Wifi: Add input box for ipAddress/boardName.
+  - Bluetooth: Add input box for COM port

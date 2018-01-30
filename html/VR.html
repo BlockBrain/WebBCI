@@ -10,7 +10,7 @@
     <script src="easyrtc/easyrtc.js"></script>
     <script src="https://unpkg.com/networked-aframe/dist/networked-aframe.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
     <script src="//unpkg.com/aframe-leap-hands/dist/aframe-leap-hands.js"></script>
@@ -45,7 +45,6 @@
         console.log("onConnect");
       }
     </script>
-
     <script>
       var isMobile = AFRAME.utils.device.isMobile();
       if (isMobile) {
@@ -80,6 +79,11 @@
       z-index: 10;
     }
     </style>
+
+
+
+
+
   </head>
   <body>
     <div id="container">
@@ -118,8 +122,6 @@
               <a-entity></a-entity>
             </script>
             <script id="head-template" type="text/html">
-      //        <a-entity leap-hand="hand: left" position="0 1.5 -.5"></a-entity>
-      //        <a-entity leap-hand="hand: right"position="0 1.5 -.5"></a-entity>
               <a-entity class="avatar">
                 <a-sphere class="head"
                   color="#5985ff"

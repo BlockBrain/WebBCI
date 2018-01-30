@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BCIVr</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script src="/socket.io/socket.io.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.1/rangeslider.css" rel="stylesheet" type="text/css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+    .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+    .fa-anchor,.fa-coffee {font-size:200px}
+    </style>
+
+    <script>
+      var socket = io('http://192.168.0.3').connect();
+    </script>
+
+    <h1 class="w3-large w3-center w3-padding-16 w3-jumbo">Stuff for home automation</h1>
+    <h2>Current APIs include RokuTV, Philips Hue, TP-link, Nest, and emoncms</h2>
+  </head>
+
+<body>
+
+  <header class="w3-large w3-center w3-padding-16">
+
+    <div style="w3-large w3-center w3-padding-16" >
+      <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="UserAction('status')"value="Get Home Status"/>
+      <p id="energy_totalStatus">Total energy:</p>
+      <p id="energy_miner1Status">Miner1</p>
+      <p id="energy_miner2and4Status">Miner2 and 4</p>
+      <p id="energy_miner3Status">Miner3</p>
+      <p id="energy_garageStatus">Antminer</p>
+      <p id="hashrateStatus">Hashrate</p>
+    </div>
+
+<!--
+    <div style="position:absolute;right:700px;top:500px;">
+      <iframe width="700" height="400"
+        src="https://video.nest.com/embedded/live/O76Xxo82vh?autoplay=0" allowfullscreen>
+      </iframe>
+      <iframe width="700" height="400"
+        src="https://video.nest.com/embedded/live/tuT8JHovUy?autoplay=0" allowfullscreen>
+      </iframe>
+    </div>
+-->
+    <div style="w3-large w3-center w3-padding-16">
+      <h3>Lightbulbs</h3>
+      <div>
+        <text class="w3-black">Bookcase</text>
+        <input type="range" min="-0" max="254" value="-10" id="Slider1">
+        <output1></output1>
+      </div>
+
+      <div>
+        <text class="w3-black">Computer</text>
+        <input type="range" min="-0" max="254" value="-10" id="Slider2">
+        <output2></output2>
+      </div>
+      <input class="w3-button w3-black w3-margin-top" type="button" onclick="UserAction('TP', '1')"value="Turn kitchen light on"/>
+      <input class="w3-button w3-black w3-margin-top" type="button" onclick="UserAction('TP', '0')"value="Turn kitchen light off"/>
+    </div>
+
+    <div style="w3-large w3-center w3-padding-16">
+      <h3> TV controls </h3>
+      <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="Roku('poweron')"value="ROKU POWER ON"/>
+      <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="Roku('poweroff')"value="ROKU POWER OFF"/>
+      <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="Roku('up')"value="Up"/>
+      <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="Roku('down')"value="Down"/>
+      <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="Roku('left')"value="Left"/>
+      <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="Roku('right')"value="Right"/>
+      <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="Roku('select')"value="Select"/>
+    </div>
+
+  </header>
+
+
+
+  <script>
+  function Roku(input){
+    console.log(input);
+    socket.emit('ROKUinfo',{input});
+    };
+  </script>
+
+  <script>
+    function UserAction(input, val){
+      if(input=='status')
+      {
+        console.log(input);
+          socket.emit('Miner_Power_send');
+          console.log(input);
+          socket.on('Miner_Power_receive', function(data1,data2,data3, data4, data5,data6){
+            console.log(input);
+        document.getElementById("energy_totalStatus").innerHTML = ("Current energy usage is: " + data1 + " Watts");
+        document.getElementById("energy_miner1Status").innerHTML = ("Miner1 is using: " + -1*data2 + " Watts");
+        document.getElementById("energy_miner2and4Status").innerHTML = ("Miner2 and 4 are using: " + data3 + " Watts");
+        document.getElementById("energy_miner3Status").innerHTML = ("Miner3 is using: " + -1*data4 + " Watts");
+        document.getElementById("energy_garageStatus").innerHTML = ("Garage is using: " + data5 + " Watts");
+        document.getElementById("hashrateStatus").innerHTML = ("Current hashrate is: " + data6.total_hashrate_calculated + " MH/s");
+      });
+    };
+    if(input=='TP')
+    {
+      console.log({val});
+      socket.emit('Lights',{val});
+    }
+    };
+  </script>
+
+  <script>
+  $(function() {
+      var $document = $(document);
+      var selector = '[data-rangeslider]';
+      var $element = $(selector);
+      // For ie8 support
+      var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
+      // Example functionality to demonstrate a value feedback
+      function valueOutput(id, element) {
+          var value = element.value;
+          if(id=="Slider1"){
+            var output1 = element.parentNode.getElementsByTagName('output1')[0] || element.parentNode.parentNode.getElementsByTagName('output1')[0];
+            output1[textContent] = value;
+            state = 1;
+            socket.emit('Lights',{value, state});
+          }
+          else if (id=="Slider2") {
+            var output2 = element.parentNode.getElementsByTagName('output2')[0] || element.parentNode.parentNode.getElementsByTagName('output2')[0];
+            output2[textContent] = value;
+            state = 2;
+            socket.emit('Lights',{value, state});
+          }
+
+      }
+      $document.on('input', 'input[type="range"], ' + selector, function(e) {
+        console.log(e.target.id);
+          valueOutput(e.target.id, e.target);
+      });
+
+
+  });
+  </script>
+
+</body>
+</html>

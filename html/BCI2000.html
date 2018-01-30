@@ -1,0 +1,19 @@
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+  <script>
+    var socket = io('127.0.0.1').connect();
+    socket.emit('openBCI2000');
+    socket.on('openedBCI2000', function(data){
+      alert('BCI2000 should be open');
+    });
+  </script>
+
+</head>
+<body>
+  <div>
+
+  </div>
+</body>
+</html>
