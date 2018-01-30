@@ -49,3 +49,5 @@ Temporary Items
 
 # Server side stuff
 .pem
+
+node_modules

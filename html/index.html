@@ -25,78 +25,24 @@
 
     <script>
       //socket = io('http://184.97.234.68');
-      var socket = io('http://192.168.0.6').connect();
+      var socket = io('http://192.168.0.3').connect();
     </script>
 
   </head>
 
   <body>
 
-    <header class="w3-container w3-red w3-center" style="padding:64px 16px">
-      <h1 class="w3-margin w3-jumbo">Panguin House</h1>
-      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/MultiNetPage.html';" value="VR" />
-      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/VRtest.html';" value="VRtestbed" />
-      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/ARexamp.html';" value="AR" />
-      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/loader.html';" value="stl viewer" />
+    <header class="w3-container w3-red w3-center" style="padding:500px 16px">
+      <h1 class="w3-margin w3-jumbo">Random projects</h1>
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='BCI.html';" value="OpenBCIStuff" />
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='automate.html';" value="Home Automation" />
+      <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='VR.html';" value="Virtual Reality" />
+<!--       <input class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="button" onclick="location.href='html/loader.html';" value="stl viewer" />
       <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('on')" value="Get BCI data stream" />
       <input class="w3-button w3-black w3-padding-large w3-large" type="button" onclick="getBCI('off')" value="Disconnect BCI data stream" />
-
-      <main id="lines"></main>
-      <script>
-      function getBCI(val){
-        socket.emit('bciStream',{val})
-      };
-        var lines = document.querySelector('#lines');
-        socket.on('brainwave',function(brainwave){
-          var line = document.createElement('pre');
-          line.innerHTML = 'Channel data: '+brainwave.channelData;
-          lines.insertBefore(line,lines.firstChild);
-        });
-      </script>
-
-
+-->
     </header>
-
-    <header class="w3-container w3-white w3-center">
-
-      <div style="position:absolute;left:800px;top:500px;width: 300px;height: 200px;" >
-        <input class="w3-button w3-black w3-large w3-margin-top" type="button" onclick="UserAction('status')"value="Get Home Status"/>
-        <p id="energy_totalStatus">Total energy:</p>
-        <p id="energy_miner1Status">Miner1</p>
-        <p id="energy_miner2Status">Miner2</p>
-        <p id="energy_solarStatus">Solar</p>
-        <p id="hashrateStatus">Hashrate</p>
-      </div>
-
-      <div>
-
-      <div style="position:absolute;right:700px;top:500px;">
-        <iframe width="700" height="400"
-          src="https://video.nest.com/embedded/live/O76Xxo82vh?autoplay=0" allowfullscreen>
-        </iframe>
-        <iframe width="700" height="400"
-          src="https://video.nest.com/embedded/live/tuT8JHovUy?autoplay=0" allowfullscreen>
-        </iframe>
-      </div>
-
-      <div style="position:absolute;left:850px;top:900px;">
-        <h3>Lightbulbs</h3>
-        <div>
-          <text class="w3-black">Bookcase</text>
-          <input type="range" min="-0" max="254" value="-10" id="Slider1">
-          <output1></output1>
-        </div>
-
-        <div>
-          <text class="w3-black">Computer</text>
-          <input type="range" min="-0" max="254" value="-10" id="Slider2">
-          <output2></output2>
-        </div>
-        <input class="w3-button w3-black w3-margin-top" type="button" onclick="UserAction('TP', '1')"value="Turn kitchen light on"/>
-        <input class="w3-button w3-black w3-margin-top" type="button" onclick="UserAction('TP', '0')"value="Turn kitchen light off"/>
-      </div>
-
-    </header>
+<<<<<<< HEAD
     <footer class="w3-container w3-red w3-bottom w3-center" style="padding:0px 0px 16px 0px">
 
       <div>
@@ -170,6 +116,10 @@
 
     });
     </script>
+=======
+>>>>>>> c1f8a69f3e28c18612c24bbeb4fac56c11c49bdb
 
-  </body>
-</html>
+    <footer class="w3-container w3-red w3-center" style="padding:0px 16px">
+      <h3>Powered by the <a href="https://github.com/TheBrainChain/WebBCI">BrainChain</a></h3>
+    </footer>
+</body>

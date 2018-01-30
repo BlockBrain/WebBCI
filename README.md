@@ -1,6 +1,10 @@
 # WebBCI
 - bcivr.com
 
+<<<<<<< HEAD
+=======
+Legacy BCI2000 stuff in 'Old' folder (just a UDP read and socketio send).
+>>>>>>> c1f8a69f3e28c18612c24bbeb4fac56c11c49bdb
 
 
 # New issues:
@@ -14,6 +18,10 @@ Either method of connection is incorrect, or the system is just being overloaded
 # Next:
 
 - Incorporate option to choose which data to stream
+<<<<<<< HEAD
+=======
+- Move server-side comms to electron app?
+>>>>>>> c1f8a69f3e28c18612c24bbeb4fac56c11c49bdb
 - Option to choose wifi/bluetooth
 - Incorporate multi-user interactions (right now each instance is independent of others)
 - Allow user to connect to openBCI via browser (current server-side)
